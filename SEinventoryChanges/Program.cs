@@ -19,6 +19,8 @@ namespace IngameScript
 {
     partial class Program : MyGridProgram
     {
+
+
         // This file contains your actual script.
         //
         // You can either keep all your code here, or you can create separate
@@ -60,8 +62,17 @@ namespace IngameScript
             // needed.
         }
 
+
+
+
+
+
+
+
+
         public void Main(string argument, UpdateType updateSource)
         {
+
             // The main entry point of the script, invoked every time
             // one of the programmable block's Run actions are invoked,
             // or the script updates itself. The updateSource argument
@@ -71,59 +82,44 @@ namespace IngameScript
             // 
             // The method itself is required, but the arguments above
             // can be removed if not needed.
-        
-            List<IMyTerminalBlock> cargoBlocks;
-            cargoBlocks = new List<IMyTerminalBlock>();
-            GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(cargoBlocks);
+
+
+            IMyTerminalBlock cargo1 = GridTerminalSystem.GetBlockWithName("cargo1");
+            IMyTerminalBlock cargo2 = GridTerminalSystem.GetBlockWithName("cargo2");
+            IMyInventory inven1;
+            IMyInventory inven2;
+            List <MyInventoryItem> stacks1 = new List<MyInventoryItem>();
+            List <MyInventoryItem> stacks2 = new List<MyInventoryItem>();
+            inven1 = cargo1.GetInventory();
+            inven2 = cargo2.GetInventory();
+            inven1.GetItems(stacks1, null);
+            foreach (MyInventoryItem stack in stacks1) {
+
+                if (stack.Type.SubtypeId == "Nickel" && stack.Amount > 0) {
+                    inven1.TransferItemTo(inven2, stack, stack.Amount);
+                }
+            }
+            
+            /*
             foreach (IMyCargoContainer cargo in cargoBlocks)
             {
 
                 var myList = new List<MyInventoryItem>();
                 var Inventory = cargo.GetInventory();
-                
+
                 Inventory.GetItems(myList, null);
-                Echo(myList.Count.ToString());
-                foreach (MyInventoryItem item in myList) {
-                    Echo(item.ItemId.ToString());
-
-                }
-               
-                /*
-                foreach (MyInventoryItem inventoryItem in myList)
+                foreach (MyInventoryItem item in myList)
                 {
-                    Echo(inventoryItem.ToString());
+                    Echo(item.Type.ToString());
+                    Echo(item.Type.SubtypeId.ToString());
+                    Echo(item.Amount.ToString());
+                    double amount = (double)item.Amount;
+                    Echo (amount.ToString());
                 }
-                */
-
+                
             }
-
-
-
-            /*
-            while (s-- > 0)
-            {
-                // identify the stacked item
-                itype = "" + stacks[s].Content.TypeId;
-                itype = itype.Substring(itype.LastIndexOf('_') + 1);
-                isub = stacks[s].Content.SubtypeId.ToString();
-
-                // new type or subtype?
-                ItemData.Init(itype, isub, 0L, 0.0f, stacks[s].Content.SubtypeId.ToString(), null);
-                itype = itype.ToUpper();
-                isub = isub.ToUpper();
-
-                // update amounts
-                amount = (long)((double)stacks[s].Amount * 1e6);
-                typeAmount[itype] += amount;
-                data = typeSubData[itype][isub];
-                data.amount += amount;
-                data.avail += amount;
-                data.invenTotal.TryGetValue(inven, out total);
-                data.invenTotal[inven] = total + amount;
-                data.invenSlot.TryGetValue(inven, out n);
-                data.invenSlot[inven] = Math.Max(n, s + 1);
-            }*/
-
+            */
         }
+        
     }
 }
