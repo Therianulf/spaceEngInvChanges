@@ -47,6 +47,7 @@ namespace IngameScript
             // It's recommended to set RuntimeInfo.UpdateFrequency 
             // here, which will allow your script to run itself without a 
             // timer block.
+
         }
 
         public void Save()
@@ -70,6 +71,24 @@ namespace IngameScript
             // 
             // The method itself is required, but the arguments above
             // can be removed if not needed.
+        
+            List<IMyTerminalBlock> cargoBlocks;
+            cargoBlocks = new List<IMyTerminalBlock>();
+            GridTerminalSystem.GetBlocksOfType<IMyCargoContainer>(cargoBlocks);
+            foreach (IMyCargoContainer cargo in cargoBlocks)
+            {
+
+                var myList = new List<MyInventoryItem>();
+                var Inventory = cargo.GetInventory();
+                Inventory.GetItems(myList, null);
+                foreach (MyInventoryItem inventoryItem in myList)
+                {
+                    Echo(inventoryItem.ToString());
+                }
+
+
+            }
+
         }
     }
 }
