@@ -84,8 +84,13 @@ namespace IngameScript
             // can be removed if not needed.
 
 
+            ///example, find something in one cargo container and move half of it to another container
+
             IMyTerminalBlock cargo1 = GridTerminalSystem.GetBlockWithName("cargo1");
             IMyTerminalBlock cargo2 = GridTerminalSystem.GetBlockWithName("cargo2");
+            VRage.MyFixedPoint fixedPoint;
+            double newAmount = 2;
+            
             IMyInventory inven1;
             IMyInventory inven2;
             List <MyInventoryItem> stacks1 = new List<MyInventoryItem>();
@@ -96,29 +101,15 @@ namespace IngameScript
             foreach (MyInventoryItem stack in stacks1) {
 
                 if (stack.Type.SubtypeId == "Nickel" && stack.Amount > 0) {
-                    inven1.TransferItemTo(inven2, stack, stack.Amount);
+
+                    double amountToMove = ((double)stack.Amount / newAmount);
+                    Echo(amountToMove.ToString());
+                    fixedPoint = (VRage.MyFixedPoint)amountToMove;
+                    inven1.TransferItemTo(inven2, stack, fixedPoint);
+                    
                 }
             }
             
-            /*
-            foreach (IMyCargoContainer cargo in cargoBlocks)
-            {
-
-                var myList = new List<MyInventoryItem>();
-                var Inventory = cargo.GetInventory();
-
-                Inventory.GetItems(myList, null);
-                foreach (MyInventoryItem item in myList)
-                {
-                    Echo(item.Type.ToString());
-                    Echo(item.Type.SubtypeId.ToString());
-                    Echo(item.Amount.ToString());
-                    double amount = (double)item.Amount;
-                    Echo (amount.ToString());
-                }
-                
-            }
-            */
         }
         
     }
