@@ -87,28 +87,36 @@ namespace IngameScript
             ///example, find something in one cargo container and move half of it to another container
 
             IMyTerminalBlock cargo1 = GridTerminalSystem.GetBlockWithName("cargo1");
-            IMyTerminalBlock cargo2 = GridTerminalSystem.GetBlockWithName("cargo2");
+            //IMyTerminalBlock cargo2 = GridTerminalSystem.GetBlockWithName("cargo2");
             VRage.MyFixedPoint fixedPoint;
-            double newAmount = 2;
-            
             IMyInventory inven1;
-            IMyInventory inven2;
+            //IMyInventory inven2;
             List <MyInventoryItem> stacks1 = new List<MyInventoryItem>();
-            List <MyInventoryItem> stacks2 = new List<MyInventoryItem>();
+            //List <MyInventoryItem> stacks2 = new List<MyInventoryItem>();
             inven1 = cargo1.GetInventory();
-            inven2 = cargo2.GetInventory();
-            inven1.GetItems(stacks1, null);
+            Echo(cargo1.InventoryCount.ToString());
+            //inven2 = cargo2.GetInventory();
+            //inven1.GetItems(stacks1, null);
+
+
+            /*
             foreach (MyInventoryItem stack in stacks1) {
 
                 if (stack.Type.SubtypeId == "Nickel" && stack.Amount > 0) {
 
-                    double amountToMove = ((double)stack.Amount / newAmount);
-                    Echo(amountToMove.ToString());
-                    fixedPoint = (VRage.MyFixedPoint)amountToMove;
+                    //double dbAmount = Convert.ToDouble(amount);
+                    //double amountToMove = ((double)stack.Amount / newAmount);
+                    //Echo(amountToMove.ToString());
+
+                    long inputAmount = stack.Amount.ToIntSafe();
+                    double dbAmount = Convert.ToDouble(inputAmount);
+                    fixedPoint = (VRage.MyFixedPoint)dbAmount;
                     inven1.TransferItemTo(inven2, stack, fixedPoint);
                     
+
                 }
             }
+            */
             
         }
         
